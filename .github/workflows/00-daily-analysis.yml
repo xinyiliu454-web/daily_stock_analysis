@@ -564,13 +564,13 @@ jobs:
             echo "📜 最近日志（最后 30 行）:"
             tail -30 logs/stock_analysis_*.log 2>/dev/null || echo "无日志"
           fi
-       - name: PushPlus微信推送通知
-  if: always()
-  run: |
-    curl -X POST https://api.pushplus.plus/send \
-    -H "Content-Type: application/json" \
-    -d "{
-      \"token\": \"${{ secrets.PUSHPLUS_TOKEN }}\",
-      \"title\":\"每日股票分析任务\",
-      \"content\":\"工作流状态：${{ job.status }} \n运行模式：${{ github.event.inputs.mode }} \n分支：${{ github.ref_name }}\"
-    }"
+      - name: PushPlus微信推送通知
+        if: always()
+        run: |
+          curl -X POST https://api.pushplus.plus/send \
+          -H "Content-Type: application/json" \
+          -d "{
+           \"token\": \"${{ secrets.PUSHPLUS_TOKEN }}\",
+           \"title\":\"每日股票分析任务\",
+           \"content\":\"工作流状态：${{ job.status }} \n运行模式：${{ github.event.inputs.mode }} \n分支：${{ github.ref_name }}\"
+          }"
